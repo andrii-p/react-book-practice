@@ -1,11 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Menu from './components/Menu'
-import data from '../data/recipes'
+import App from './components/App'
 
 window.React = React
 
 render(
-    <Menu recipes={data} />,
-    document.getElementById("react-container")
+    <App />,
+    document.getElementById('react-container')
 )

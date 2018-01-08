@@ -6,7 +6,7 @@ process.noDeprecation = true
 module.exports = {
   entry: "./src/main/resources/static/js/index.js",
   output: {
-      path: "./src/main/resources/static/dist",
+      path: path.resolve(__dirname, "src/main/resources/static/dist"),
       filename: "bundle.js",
       sourceMapFilename: 'bundle.map'
   },
@@ -28,6 +28,14 @@ module.exports = {
                   options: {
                     plugins: () => [require('autoprefixer')]
                   }}]
+          },
+          {
+              test: /\.scss/,
+              use: ['style-loader','css-loader', {
+                  loader: 'postcss-loader',
+                  options: {
+                      plugins: () => [require('autoprefixer')]
+                  }}, 'sass-loader']
           }
       ]
   },
