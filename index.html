@@ -2,14 +2,48 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>React with JSX Samples Test</title>
+    <style media="screen">
+        @import url(https://fonts.googleapis.com/css?family=Knewave);
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #react-container {
+            height: calc(100% - 2.5em);
+            margin: 1em;
+            border: 0.25em double orange;
+            color: blue;
+            border-radius: 0.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Knewave", fantasy, Arial;
+            font-size: 5em;
+        }
+        #react-container span {
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.5em;
+        }
+        #react-container span:last-child {
+            color: grey;
+            font-size: 0.5em;
+        }
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.0.0/EventEmitter.min.js"></script>
+    <script src="https://unpkg.com/redux@3.7.2/dist/redux.min.js"></script>
+    <title>Flux</title>
 </head>
 <body>
 <div id="react-container"></div>
 
-<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
 <script type="text/babel">
 
@@ -71,41 +105,344 @@
 //    )
 
     ////////////////////////Chapter 6////////////////////////////////
-    const { Component } = React
-    const { render } = ReactDOM
-    class AddColorForm extends Component {
-        constructor(props) {
-            super(props)
-            this.submit = this.submit.bind(this)
-        }
-        submit(e) {
-            const { _title, _color } = this.refs
-            e.preventDefault()
-            console.log(this.refs)
-            console.log(this.refs._title.value)
-            console.log(this.refs._color.value)
-            alert(`New Color: ${_title.value} ${_color.value}`)
-            _title.value = ''
-            _color.value = '#000000'
-            _title.focus()
-        }
-        render() {
-            return (
-                    <form onSubmit={this.submit}>
-                        <input ref="_title"
-                               type="text"
-                               placeholder="color title..." required/>
-                        <input ref="_color"
-                               type="color" required/>
-                        <button>ADD</button>
-                    </form>
-            )
-        }
+//    const { Component } = React
+//    const { render } = ReactDOM
+//    class AddColorForm extends Component {
+//        constructor(props) {
+//            super(props)
+//            this.submit = this.submit.bind(this)
+//        }
+//        submit(e) {
+//            const { _title, _color } = this.refs
+//            e.preventDefault()
+//            console.log(this.refs)
+//            console.log(this.refs._title.value)
+//            console.log(this.refs._color.value)
+//            alert(`New Color: ${_title.value} ${_color.value}`)
+//            _title.value = ''
+//            _color.value = '#000000'
+//            _title.focus()
+//        }
+//        render() {
+//            return (
+//                    <form onSubmit={this.submit}>
+//                        <input ref="_title"
+//                               type="text"
+//                               placeholder="color title..." required/>
+//                        <input ref="_color"
+//                               type="color" required/>
+//                        <button>ADD</button>
+//                    </form>
+//            )
+//        }
+//    }
+//    render(
+//            <AddColorForm />,
+//        document.getElementById('react-container')
+//    )
+
+
+////////////////////////Chapter 7 Members////////////////////////////////
+
+//const {Component} = React
+//const {render} = ReactDOM
+//const getFakeMembers = count => new Promise((resolves, rejects) => {
+//    const api = `https://api.randomuser.me/?nat=US&results=${count}`
+//    const request = new XMLHttpRequest()
+//    request.open('GET', api)
+//    request.onload = () => (request.status == 200) ?
+//        resolves(JSON.parse(request.response).results) :
+//        reject(Error(request.statusText))
+//    request.onerror = (err) => rejects(err)
+//    request.send()
+//})
+//const Member = ({email, picture, name, location}) =>
+//        <div className="member">
+//            <img src={picture.thumbnail} alt=""/>
+//            <h1>{name.first} {name.last}</h1>
+//            <p><a href={"mailto:" + email}>{email}</a></p>
+//            <p>{location.city}, {location.state}</p>
+//        </div>
+//
+//class MemberList extends Component {
+//    constructor() {
+//        super()
+//        this.state = {
+//            members: [],
+//            loading: false,
+//            error: null
+//        }
+//    }
+//
+//    componentWillMount() {
+//        this.setState({loading: true})
+//        getFakeMembers(this.props.count).then(
+//            members => {
+//                this.setState({members, loading: false})
+//            },
+//            error => {
+//                this.setState({error, loading: false})
+//            }
+//        )
+//    }
+//
+//    componentWillUpdate() {
+//        console.log('updating lifecycle')
+//    }
+//
+//    render() {
+//        const {members, loading, error} = this.state
+//        return (
+//                <div className="member-list">
+//                    {(loading) ?
+//                            <span>Loading Members</span> :
+//                        (members.length) ?
+//                            members.map((user, i) =>
+//                                    <Member key={i} {...user} />
+//                            ) :
+//                                <span>0 members loaded...</span>
+//                    }
+//                    {(error) ? <p>Error Loading Members: error</p> : ""}
+//                </div>
+//        )
+//    }
+//}
+//
+//render(
+//        <MemberList count={5}/>,
+//    document.getElementById('react-container')
+//)
+////////////////////////Chapter 7 Hidden Messages////////////////////////////////
+//
+//const { Component } = React
+//const { render } = ReactDOM
+//class HiddenMessage extends Component {
+//    constructor(props) {
+//        super(props)
+//        this.state = {
+//            hidden: (props.hide) ? props.hide : true
+//        }
+//    }
+//
+//    componentWillReceiveProps(nextProps) {
+//        this.setState({hidden: nextProps.hide})
+//    }
+//
+//    render() {
+//        const { children } = this.props
+//        const { hidden } = this.state
+//        return (
+//                <p>
+//                    {(hidden) ?
+//                        children.replace(/[a-zA-Z0-9]/g, "x") :
+//                        children
+//                    }
+//                </p>
+//        )
+//    }
+//}
+//class HiddenMessages extends Component {
+//    constructor(props) {
+//        super(props)
+//        this.state = {
+//            messages: [
+//                "The crow crows after midnight",
+//                "Bring a watch and dark clothes to the spot",
+//                "Jericho Jericho Go"
+//            ],
+//            showing: -1
+//        }
+//    }
+//    //
+//    //  Problem: we should a message every second
+//    //
+//    componentWillMount() {
+//        this.interval = setInterval(() => {
+//            this.setState(prevState => {
+//                let { showing, messages } = prevState
+//                showing = (++showing >= messages.length) ?
+//                    -1 : showing
+//                return {showing}
+//            })
+//        }, 1000)
+//    }
+//    componentWillUnmount() {
+//        clearInterval(this.interval)
+//    }
+//    render() {
+//        const { messages, showing } = this.state
+//        return (
+//                <div className="hidden-messages">
+//                    {messages.map((message, i) =>
+//                            <HiddenMessage key={i}
+//                                           hide={(i!==showing)}>
+//                                {message}
+//                            </HiddenMessage>
+//                    )}
+//                </div>
+//        )
+//    }
+//}
+//render(
+//        <HiddenMessages />,
+//    document.getElementById('react-container')
+//)
+////////////////////////Chapter 7 React.Children////////////////////////////////
+//
+//const { Children, PropTypes } = React
+//const { render } = ReactDOM
+//const findChild = (children, child) =>
+//    Children.toArray(children)
+//        .filter(c => c.type === child )[0]
+//const WhenTruthy = ({children}) =>
+//    Children.only(children)
+//const WhenFalsy = ({children}) =>
+//    Children.only(children)
+//const Display = ({ ifTruthy=true, children }) =>
+//    (ifTruthy) ?
+//        findChild(children, WhenTruthy) :
+//        findChild(children, WhenFalsy)
+//const age = 19
+//render(
+//        <Display ifTruthy={age >= 21}>
+//            <WhenTruthy>
+//                <h1>You can Enter</h1>
+//            </WhenTruthy>
+//            <WhenFalsy>
+//                <h1>Beat it Kid</h1>
+//            </WhenFalsy>
+//        </Display>,
+//    document.getElementById('react-container')
+//)
+
+////////////////////////Chapter 7 Flux////////////////////////////////
+//const { Component } = React
+//const { Dispatcher } = Flux
+///* View : React Countdown Component
+//************************************************************/
+//const Countdown = ({count, tick, reset}) => {
+//    if (count) {
+//        setTimeout(() => tick(count), 1000)
+//    }
+//    return (count) ?
+//            <h1>{count}</h1> :
+//            <div onClick={() => reset(10)}>
+//                <span>CELEBRATE!!!</span>
+//                <span>(click to start over)</span>
+//            </div>
+//}
+///* Action Creators : Create Action Objects
+//************************************************************/
+//const countdownActions = dispatcher =>
+//    ({
+//        tick(count) {
+//            dispatcher.handleAction({
+//                type: 'TICK',
+//                count: count - 1
+//            })
+//        },
+//        reset(count) {
+//            dispatcher.handleAction({
+//                type: 'RESET',
+//                count
+//            })
+//        }
+//    })
+///* CountDispatcher : Dispatches actions for the Countodown
+//************************************************************/
+//class CountdownDispatcher extends Dispatcher {
+//    handleAction(action) {
+//        console.log('dispatching action:', action)
+//        this.dispatch({
+//            source: 'VIEW_ACTION',
+//            action
+//        })
+//    }
+//}
+///* The Store : Holds the Countdown Info
+//************************************************************/
+//class CountdownStore extends EventEmitter {
+//    constructor(count=5, dispatcher) {
+//        super()
+//        this._count = count
+//        this.dispatcherIndex = dispatcher.register(this.dispatch.bind(this))
+//    }
+//    get count() {
+//        return this._count
+//    }
+//    dispatch(payload) {
+//        const { type, count } = payload.action
+//        switch(type) {
+//            case "TICK":
+//                this._count = count
+//                this.emit("TICK")
+//                return true
+//            case "RESET":
+//                this._count = count
+//                this.emit("RESET")
+//                return true
+//        }
+//    }
+//}
+///* Flux App : Put it all together
+//************************************************************/
+//const appDispatcher = new CountdownDispatcher()
+//const actions = countdownActions(appDispatcher)
+//const store = new CountdownStore(10, appDispatcher)
+//const render = count => ReactDOM.render(
+//        <Countdown count={count} {...actions} />,
+//    document.getElementById('react-container')
+//)
+//store.on("TICK", ()=> render(store.count))
+//store.on("RESET", ()=> render(store.count))
+//render(store.count)
+
+////////////////////////Chapter 8 Redux Store////////////////////////////////
+const { createStore } = Redux
+const color = (state = {}, action) => {
+    switch (action.type) {
+        case "ADD_COLOR":
+            return {
+                id: action.id,
+                title: action.title,
+                color: action.color,
+                timestamp: action.timestamp,
+                rating: 0
+            }
+        case "RATE_COLOR":
+            return (state.id !== action.id) ?
+                state :
+                {
+                    ...state,
+                    rating: action.rating
+                }
+        default :
+            return state
     }
-    render(
-            <AddColorForm />,
-        document.getElementById('react-container')
-    )
+}
+
+const colors = (state = [], action) => {
+    switch (action.type) {
+        case "ADD_COLOR" :
+            return [
+                ...state,
+                color({}, action)
+            ]
+        case "RATE_COLOR" :
+            return state.map(
+                c => color(c, action)
+            )
+        case "REMOVE_COLOR" :
+            return state.filter(
+                c => c.id !== action.id
+            )
+        default:
+            return state
+    }
+}
+const store = createStore(colors)
+console.log(store.getState())
+
 </script>
 
 </body>
